@@ -1,0 +1,3 @@
+#!/bin/bash
+
+google-chrome https://github.com/BrainshipOrg/backend/pulls https://github.com/BrainshipOrg/frontend/pulls https://github.com/BrainshipOrg/painel-admin/pulls

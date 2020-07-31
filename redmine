@@ -1,0 +1,3 @@
+#!/bin/bash
+
+GTK_THEME=Adwaita java -jar ~/cadastro-redmine/CadastroRedmine.jar &
