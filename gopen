@@ -1,3 +1,3 @@
 #!/bin/bash
 
-hub browse $(basename -s .git `git config --get remote.origin.url`) &
+hub browse $(basename -s .git `git config --get remote.origin.url`) > /dev/null 2>&1
