@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl https://gist.githubusercontent.com/LucasRMP/de0b04210c3730590b7a1326a4d9c991/raw/772b6b3335c1e32dce95af993965b9a7264549d5/commit-types.md
