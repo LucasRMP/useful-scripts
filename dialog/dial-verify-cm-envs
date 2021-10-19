@@ -1,0 +1,28 @@
+#!/bin/bash
+
+WORK_DIR=$DEV/dialog
+ADM_ENVS_FILE=$WORK_DIR/admin/deploy_hooks/hosts_prod.ini
+API_ENVS_FILE=$WORK_DIR/admin/deploy_hooks/hosts_prod.ini
+
+declare -A replacements
+replacements["pep"]="pepapp"
+
+# ADM
+adm_clients=$(sed -e '2,$ s/dial-adm-\(.*\)-prod.*/\1/' $ADM_ENVS_FILE | tail -n +2)
+for client in $adm_clients; do
+  api_key=$client
+  [[ "${replacements[$client]+foobar}" ]] && api_key=${replacements[$client]}
+
+  result=$(curl --silent "https://$api_key.dialog.cm/git")
+  printf '[ADM] %-20s: %s\n' "$api_key" "$result"
+done
+
+# API
+api_clients=$(sed -e '2,$ s/dial-adm-\(.*\)-prod.*/\1/' $API_ENVS_FILE | tail -n +2)
+for client in $api_clients; do
+  api_key=$client
+  [[ "${replacements[$client]+foobar}" ]] && api_key=${replacements[$client]}
+
+  result=$(curl --silent "https://api-$api_key.dialog.cm/git")
+  printf '[API] %-20s: %s\n' "$api_key" "$result"
+done

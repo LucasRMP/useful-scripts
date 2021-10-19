@@ -1,0 +1,7 @@
+#!/bin/bash
+
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+
+CONF_DIR=/home/lucas/vpn/dialog
+sudo openvpn --config $CONF_DIR/client.ovpn --auth-user-pass $CONF_DIR/login.conf
+

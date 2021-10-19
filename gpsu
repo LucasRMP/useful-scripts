@@ -1,3 +1,0 @@
-#!/bin/bash
-
-git push --set-upstream origin $(git rev-parse --symbolic-full-name --abbrev-ref HEAD)

@@ -1,0 +1,63 @@
+#!/bin/bash
+
+client='plus'
+env='qa'
+app='api'
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+
+  case $key in
+    -c|--client)
+      client="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -e|--env)
+      env="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -a|--app)
+      app="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    *)    # unknown option
+      POSITIONAL+=("$1") # save it in an array for later
+      shift # past argument
+      ;;
+  esac
+done
+
+subdomainPrefix="api-$client"
+
+if [[ "$app" = "admin" || "$app" = "adm" ]]; then
+  subdomainPrefix=$client
+fi
+
+envDomainSuffix="qa"
+
+if [[ "$env" = "cm" || "$env" = "prod" ]]; then
+  envDomainSuffix="cm"
+fi
+
+url="https://$subdomainPrefix.dialog.$envDomainSuffix/git"
+
+initial_state=$(curl -s $url)
+
+echo 'Initial State: ' $initial_state
+
+while(true)
+do
+  curr_state=$(curl -s $url)
+  echo $curr_state
+  if [ "$initial_state" != "$curr_state" ]
+  then
+    paplay /usr/share/sounds/freedesktop/stereo/complete.oga
+    notify-send $curr_state
+    exit 1
+  else
+    sleep 1
+  fi
+done
