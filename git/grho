@@ -1,0 +1,6 @@
+#!/bin/bash
+
+remote_name=$(git remote)
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+git reset --hard $remote_name/$current_branch
