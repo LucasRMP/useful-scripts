@@ -1,0 +1,37 @@
+#!/bin/bash
+
+help() {
+  echo "Util script to cherry-pick multiple commits at once"
+  echo
+  echo "Syntax: gcpm [-h|n] <target_branch>"
+  echo "options:"
+  echo "-h|--help     Print this Help."
+  echo "-n            Defines how much commits are gonna be picked."
+  echo
+}
+
+while getopts "n:" option; do
+  case $option in
+    n)
+      numCommits=$OPTARG
+      ;;
+
+    *)
+      help
+      exit;;
+  esac
+done
+
+if ! [ $numCommits ]; then
+  numCommits=1
+fi
+
+echo $numCommits
+
+head=${!#}
+prevHead="$head~$((numCommits-1))"
+
+git rev-list --reverse --topo-order $prevHead^..$head | while read rev 
+do 
+  git cherry-pick $rev || break 
+done

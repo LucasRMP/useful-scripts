@@ -51,7 +51,7 @@ echo 'Initial State: ' $initial_state
 while(true)
 do
   curr_state=$(curl -s $url)
-  echo $curr_state
+  echo "$(date | awk '{print $5}'): $curr_state"
   if [ "$initial_state" != "$curr_state" ]
   then
     paplay /usr/share/sounds/freedesktop/stereo/complete.oga
